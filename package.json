@@ -1,7 +1,7 @@
 {
   "name": "@biscuitnick/react-biscuit",
   "private": false,
-  "version": "0.1.8",
+  "version": "0.1.9",
   "description": "Biscuit React Components",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
@@ -39,6 +39,7 @@
   ],
   "types": "dist/index.d.ts",
   "dependencies": {
+    "@react-spring/konva": "^9.4.2",
     "canvas": "^2.9.0",
     "konva": "^8.3.2",
     "react-konva": "^17.0.2-5",
