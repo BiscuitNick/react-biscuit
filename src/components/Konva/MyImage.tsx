@@ -28,14 +28,14 @@ const MyImage = (props: ImageProps) => {
 
   //const {x,y,width,height} = props;
 
-  if (status === "loading") {
-    console.log(status, image);
-  }
-  if (status === "loaded") {
-    //Apply Resizing after loaded.
-    //We can again skip Wrapper...
-    console.log(status, image.naturalWidth, image.naturalHeight);
-  }
+  // if (status === "loading") {
+  //   console.log(status, image);
+  // }
+  // if (status === "loaded") {
+  //   //Apply Resizing after loaded.
+  //   //We can again skip Wrapper...
+  //   console.log(status, image.naturalWidth, image.naturalHeight);
+  // }
 
   return (
     <Image
