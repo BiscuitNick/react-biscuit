@@ -1060,10 +1060,10 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@biscuitnick/react-biscuit@^0.1.11":
-  version "0.1.11"
-  resolved "https://registry.yarnpkg.com/@biscuitnick/react-biscuit/-/react-biscuit-0.1.11.tgz#f0cf712e480d1fa68ff47ee5edb607f0b4d68f4d"
-  integrity sha512-htDbw6VWJAibWGBj8gVJj6KSS1zR7qgXmXy2XLrjxhEzk9PieCFUFigUMzsZ6p1clO0GvX+nucBjk7129auPow==
+"@biscuitnick/react-biscuit@^0.2.26":
+  version "0.2.26"
+  resolved "https://registry.yarnpkg.com/@biscuitnick/react-biscuit/-/react-biscuit-0.2.26.tgz#4e2c4021d14dc2c93b5b99473d6412701a0bcad0"
+  integrity sha512-ag+MywyvPKpqZPMnP283FvmGdvInocda9t1qZ3wocRFXD5ahX8ZPxO3JC/shCGqGlQn0kBghBznNKVp2VFosww==
   dependencies:
     "@react-spring/konva" "^9.4.2"
     canvas "^2.9.0"

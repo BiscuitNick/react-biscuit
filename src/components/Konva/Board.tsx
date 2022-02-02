@@ -1,10 +1,21 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { default as MyRect, RectProps } from "./MyRect";
 import { default as MyCircle, CircleProps } from "./MyCircle";
 import { default as MyImage, ImageProps } from "./MyImage";
 
 const Konva = require("react-konva");
 const { Stage, Layer } = Konva;
+
+const getStageData = (canvasRef: any) => {
+  if (!canvasRef) {
+    return null;
+  }
+  if (!canvasRef.current) return null;
+  else {
+    const stageData = canvasRef.current.getStage();
+    return stageData;
+  }
+};
 
 export interface BoardProps {
   width: number;

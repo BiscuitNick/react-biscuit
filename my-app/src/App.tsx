@@ -1,100 +1,151 @@
 import "./App.css";
+import React, { useEffect, useState } from "react";
 import {
-  Button,
   Board,
   MyRect,
   MyCircle,
   MyImage,
+  Eye,
 } from "@biscuitnick/react-biscuit";
 import { useRef } from "react";
-import useImage from "use-image";
-import { WrappedImage } from "./Components/WrappedImage";
+
+const getStageData = (canvasRef: any) => {
+  if (!canvasRef) {
+    return null;
+  }
+  if (!canvasRef.current) return null;
+  else {
+    const stageData = canvasRef.current.getStage();
+    return stageData;
+  }
+};
+
+const handleClick = (e: { target: { attrs: any } }) => {
+  console.log(e.target.attrs);
+};
 
 function App() {
+  const [xy, set] = useState({ x: 0, y: 0 });
   const canvasRef = useRef<any>(null);
-  const [image] = useImage(
-    "https://res.cloudinary.com/drk1nv578/image/upload/t_optimized/v1639218364/tc-uploads/1200px-Earth_Western_Hemisphere_transparent_background.png"
-  );
 
   const width = window.innerWidth;
   const height = window.innerHeight;
+
+  const outerSize = Math.min(height, width) * 0.05;
+  const innerSize = outerSize / 2;
+  const centerX = width / 2;
+  const centerY = height / 2;
+
   const rectProps = {
     width: width / 2,
     height: height / 2,
     fill: "pink",
-    x: 500, //width / 4, pink
-    y: height / 4,
-    handleClick: (e: { target: { attrs: any } }) =>
-      console.log(canvasRef.current, e.target.attrs),
-    draggable: true,
-  };
-  const circleProps = {
-    x: width / 2,
-    y: height / 2,
-    radius: Math.min(height, width) / 4,
-
-    fill: "brown",
-    stroke: "black",
-
-    handleClick: () => {
-      if (!canvasRef) {
-        return null;
-      }
-      if (!canvasRef.current) return null;
-      else {
-        let stageData = canvasRef.current.getStage();
-        console.log(stageData);
-      }
-    },
+    x: xy.x - width / 4,
+    y: xy.y - height / 4,
+    handleClick,
     draggable: true,
   };
 
   const imageProps = {
-    x: width / 2,
-    y: height / 2,
+    x: centerX, // + width / 4,
+    y: centerY, //+ height / 4,
     width: width / 2,
     height: height / 2,
-    src: "https://res.cloudinary.com/drk1nv578/image/upload/t_optimized/v1639218364/tc-uploads/1200px-Earth_Western_Hemisphere_transparent_background.png",
+    offsetX: width / 4,
+    offsetY: height / 4,
 
-    //radius: Math.min(height, width) / 4,
-    // image,
-    handleClick: () => {
-      if (!canvasRef) {
-        return null;
-      }
-      if (!canvasRef.current) return null;
+    rotation: 45,
+
+    handleClick,
+
+    src: "https://res.cloudinary.com/drk1nv578/image/upload/t_optimized/v1639218364/tc-uploads/1200px-Earth_Western_Hemisphere_transparent_background.png",
+    draggable: false,
+  };
+
+  useEffect(() => {
+    const followCursor = setInterval(() => {
+      const stageData = getStageData(canvasRef);
+      if (!stageData) return null;
       else {
-        let stageData = canvasRef.current.getStage();
-        console.log(stageData);
+        const cursorXY = stageData.getPointerPosition();
+        set(cursorXY ? cursorXY : { x: centerX, y: centerY });
       }
-    },
-    draggable: true,
+    }, 200);
+
+    return () => clearInterval(followCursor);
+  }, []);
+
+  const eyeProps = {
+    x: centerX - outerSize * 1.5,
+    y: centerY,
+    width,
+    height,
+
+    outerSize,
+    outerShape: "Circle",
+    outerFill: "white",
+    outerStroke: "blue",
+    outerRotation: 0,
+
+    innerSize,
+    innerShape: "Rect",
+    innerFill: "black",
+    innerStroke: "green",
+
+    focalPoint: xy,
+    disableClip: false,
+    sensitivity: 5,
+    movementFactor: 1,
+    w2h: 1,
+    handleClick,
   };
 
   return (
-    <div className="App">
-      <Board
-        width={width}
-        height={height}
-        rectProps={rectProps}
-        canvasRef={canvasRef}
-      >
-        <MyRect {...rectProps} canvasRef={canvasRef} />
-        <MyCircle {...circleProps} canvasRef={canvasRef} />
-        {/* <WrappedImage {...imageProps} canvasRef={canvasRef} /> */}
-
-        <MyImage {...imageProps} canvasRef={canvasRef} />
-
-        {/* <WrappedImage
-          {...imageProps}
-          src={
-            "https://res.cloudinary.com/drk1nv578/image/upload/t_optimized/v1639218364/tc-uploads/1200px-Earth_Western_Hemisphere_transparent_background.png"
-          }
-          canvasRef={canvasRef}
-        /> */}
-      </Board>
-    </div>
+    <Board
+      width={width}
+      height={height}
+      rectProps={rectProps}
+      canvasRef={canvasRef}
+    >
+      <MyImage {...imageProps} />
+      <Eye {...eyeProps} />
+      <Eye {...eyeProps} outerShape={"Circle"} x={centerX + outerSize * 1.5} />
+    </Board>
   );
 }
 
 export default App;
+
+// focalPoint={xy}
+// x={width}
+// y={height}
+
+// innerProps={{
+//   ...innerCircle,
+//   ...xy,
+// }}
+// outerProps={{ ...circleProps, x: 0, y: 0 }}
+// handleClick={handleClick}
+// x={centerX}
+// y={centerY}
+// width={width}
+// height={height}
+// //OuterShape
+// outerSize={outerSize}
+// outerShape={"Circle"}
+// outerFill={"orange"}
+// outerStroke={"blue"}
+// //InnerShape
+// innerSize={innerSize}
+// innerShape={"Circle"}
+// innerFill={"purple"}
+// innerStroke={"black"}
+// //
+// focalPoint={xy}
+// sensitivity={10}
+// disableClip={false}
+// w2h={1}
+// handleClick={handleClick}
+
+// /* <MyCircle {...circleProps} />
+// <MyCircle {...innerCircle} /> */

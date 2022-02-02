@@ -11,6 +11,8 @@ export interface WrappedImageProps {
   y: number;
   width: number;
   height: number;
+  offsetX?: number;
+  offsetY?: number;
   src: string;
   canvasRef?: object;
 }
@@ -23,5 +25,5 @@ export const WrappedImage = (props: WrappedImageProps) => {
     console.log(image);
   }, [image]);
 
-  return <MyImage {...props} />;
+  return null; //<MyImage {...props} />;
 };

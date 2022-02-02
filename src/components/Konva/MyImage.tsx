@@ -1,6 +1,4 @@
 import React from "react";
-import { useEffect } from "react";
-// import useImage from "use-image";
 
 const useImage = require("use-image");
 const Konva = require("react-konva");
@@ -12,10 +10,12 @@ export interface ImageProps {
   y: number;
   width: number;
   height: number;
-  rotation?: number;
+  offsetX?: number;
+  offsetY?: number;
 
+  preserveAspect?: boolean;
+  rotation?: number;
   src: string;
-  //   image?: object;
 
   //Interactions
   canvasRef?: object;
@@ -26,18 +26,16 @@ export interface ImageProps {
 const MyImage = (props: ImageProps) => {
   const [image, status] = useImage(props.src);
 
+  //const {x,y,width,height} = props;
+
   if (status === "loading") {
     console.log(status, image);
   }
   if (status === "loaded") {
     //Apply Resizing after loaded.
     //We can again skip Wrapper...
-
     console.log(status, image.naturalWidth, image.naturalHeight);
   }
-  //   useEffect(() => {
-  //     console.log(image);
-  //   }, [image]);
 
   return (
     <Image
@@ -45,6 +43,9 @@ const MyImage = (props: ImageProps) => {
       y={props.y}
       width={props.width}
       height={props.height}
+      offsetX={props.offsetX}
+      offsetY={props.offsetY}
+      rotation={props.rotation}
       onClick={props?.handleClick}
       draggable={props?.draggable}
       canvasRef={props?.canvasRef}

@@ -1,4 +1,6 @@
 import React from "react";
+const SpringKonva = require("@react-spring/konva");
+const { animated, useSpring } = SpringKonva;
 const Konva = require("react-konva");
 const { Circle } = Konva;
 
@@ -11,20 +13,22 @@ export interface CircleProps {
   radius: number;
 
   //Style
-  fill: string;
+  fill?: string;
   stroke?: string;
 
   //Interactions
   canvasRef?: object;
   draggable?: boolean;
-  handleClick: any;
+  handleClick?: any;
 }
 
 const MyCircle = (props: CircleProps) => {
+  const { x, y } = useSpring({ x: props.x, y: props.y });
+
   return (
-    <Circle
-      x={props.x}
-      y={props.y}
+    <animated.Circle
+      x={x}
+      y={y}
       radius={props.radius}
       fill={props.fill}
       stroke={props.stroke}
