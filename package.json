@@ -1,7 +1,7 @@
 {
   "name": "@biscuitnick/react-biscuit",
   "private": false,
-  "version": "0.2.27",
+  "version": "0.2.28",
   "description": "Biscuit React Components",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
