@@ -4,21 +4,25 @@ import {
   Board,
   MyRect,
   MyCircle,
-  MyImage,
   Eye,
+  MyImage,
+  getStageData,
 } from "@biscuitnick/react-biscuit";
+
+// import Eye from "./Components/Eye";
+
 import { useRef } from "react";
 
-const getStageData = (canvasRef: any) => {
-  if (!canvasRef) {
-    return null;
-  }
-  if (!canvasRef.current) return null;
-  else {
-    const stageData = canvasRef.current.getStage();
-    return stageData;
-  }
-};
+// export const getStageData = (canvasRef: any) => {
+//   if (!canvasRef) {
+//     return null;
+//   }
+//   if (!canvasRef.current) return null;
+//   else {
+//     const stageData = canvasRef.current.getStage();
+//     return stageData;
+//   }
+// };
 
 const handleClick = (e: { target: { attrs: any } }) => {
   console.log(e.target.attrs);
@@ -82,21 +86,22 @@ function App() {
     height,
 
     outerSize,
-    outerShape: "Circle",
+    outerShape: "Rect",
     outerFill: "white",
     outerStroke: "blue",
-    outerRotation: 0,
+    outerRotation: 45,
 
     innerSize,
     innerShape: "Rect",
     innerFill: "black",
     innerStroke: "green",
+    innerRotation: -45,
 
     focalPoint: xy,
     disableClip: false,
-    sensitivity: 5,
+    sensitivity: 1,
     movementFactor: 1,
-    w2h: 1,
+    w2h: 1.0,
     handleClick,
   };
 

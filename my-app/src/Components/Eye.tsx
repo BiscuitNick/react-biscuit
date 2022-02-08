@@ -1,6 +1,6 @@
 import React from "react";
-import { default as MyRect, RectProps } from "./MyRect";
-import { default as MyCircle, CircleProps } from "./MyCircle";
+import { MyRect } from "@biscuitnick/react-biscuit";
+import { MyCircle } from "@biscuitnick/react-biscuit";
 
 const Konva = require("react-konva");
 const { Group } = Konva;
@@ -74,6 +74,8 @@ const Eye = (props: EyeProps) => {
     handleClick,
   } = props;
 
+  const ratio = getRatio({ ratio: w2h || 1, sum: 2 });
+
   const getInnerPosition = () => {
     const xDelta = focalPoint.x - x;
     const yDelta = focalPoint.y - y;
@@ -99,18 +101,18 @@ const Eye = (props: EyeProps) => {
     return { x: innerX, y: innerY };
   };
 
-  const ratio = getRatio({ ratio: w2h || 1, sum: 2 });
   const innerXY = getInnerPosition();
 
   const groupProps = {
     scaleX: ratio[0],
     scaleY: ratio[1],
-    rotation: outerRotation || 0,
+
     x: x, //outerShape === "Rect" ? x - outerSize : x, //+ outerSize,
     y: y, //outerShape === "Rect" ? y - outerSize : y, // + outerSize,
     offsetX: 0, //outerShape === "Rect" ? outerSize : 0,
     offsetY: 0, //outerShape === "Rect" ? outerSize : 0,
     onClick: handleClick,
+    rotation: outerRotation || 0,
     clipFunc: disableClip
       ? null
       : outerShape === "Circle"
@@ -140,6 +142,7 @@ const Eye = (props: EyeProps) => {
         offsetY={outerSize}
         fill={outerFill}
         stroke={outerStroke}
+        // rotation={outerRotation || 0}
       />
     ) : null;
 
@@ -151,11 +154,9 @@ const Eye = (props: EyeProps) => {
         radius={innerSize}
         fill={innerFill}
         stroke={innerStroke}
-        // rotation={innerRotation || 0}
       />
     ) : innerShape === "Rect" ? (
       <MyRect
-        rotation={innerRotation || 0}
         width={innerSize * 2}
         height={innerSize * 2}
         x={innerXY.x || 0}
@@ -164,6 +165,16 @@ const Eye = (props: EyeProps) => {
         offsetY={innerSize}
         fill={innerFill}
         stroke={innerStroke}
+        rotation={
+          innerRotation || 0
+          // outerRotation && innerRotation
+          //   ? innerRotation - outerRotation
+          //   : outerRotation
+          //   ? -outerRotation
+          //   : innerRotation
+          //   ? innerRotation
+          //   : 0
+        }
       />
     ) : null;
 

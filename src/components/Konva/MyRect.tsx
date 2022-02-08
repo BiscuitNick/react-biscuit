@@ -22,18 +22,22 @@ export interface RectProps {
 
 const MyRect = (props: RectProps) => {
   const { handleClick, draggable } = props;
-  const { x, y, width, height, fill, stroke, rotation } = useSpring(props);
+  const { x, y, width, height, fill, stroke, rotation, offsetX, offsetY } =
+    props;
+  const springProps = useSpring({
+    x,
+    y,
+    width,
+    height,
+    fill,
+    stroke,
+    rotation,
+    offsetX,
+    offsetY,
+  });
   return (
     <animated.Rect
-      x={x}
-      y={y}
-      width={width}
-      height={height}
-      fill={fill}
-      stroke={stroke}
-      rotation={rotation}
-      offsetX={props.offsetX}
-      offsetY={props.offsetY}
+      {...springProps}
       onClick={handleClick}
       draggable={draggable}
     />
