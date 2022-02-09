@@ -1,5 +1,6 @@
 import React from "react";
-
+const SpringKonva = require("@react-spring/konva");
+const { animated, useSpring } = SpringKonva;
 const useImage = require("use-image");
 const Konva = require("react-konva");
 const { Image } = Konva;
@@ -21,11 +22,13 @@ export interface ImageProps {
   canvasRef?: object;
   draggable?: boolean;
   handleClick?: any;
+  handleDrag?: any;
 }
 
 const MyImage = (props: ImageProps) => {
   const [image, status] = useImage(props.src);
-
+  const { x, y, width, height, rotation, offsetX, offsetY } = props;
+  const imageSpring = useSpring(props);
   //const {x,y,width,height} = props;
 
   // if (status === "loading") {
@@ -38,18 +41,21 @@ const MyImage = (props: ImageProps) => {
   // }
 
   return (
-    <Image
-      x={props.x}
-      y={props.y}
-      width={props.width}
-      height={props.height}
-      offsetX={props.offsetX}
-      offsetY={props.offsetY}
-      rotation={props.rotation}
+    <animated.Image
+      {...imageSpring}
+      // x={props.x}
+      // y={props.y}
+      // width={props.width}
+      // height={props.height}
+      // offsetX={props.offsetX}
+      // offsetY={props.offsetY}
+      // rotation={props.rotation}
       onClick={props?.handleClick}
       draggable={props?.draggable}
       canvasRef={props?.canvasRef}
       image={image}
+      onDragStart={props.handleDrag}
+      onDragEnd={props.handleDrag}
     />
   );
 };

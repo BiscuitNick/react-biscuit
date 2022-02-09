@@ -20,21 +20,21 @@ export interface CircleProps {
   canvasRef?: object;
   draggable?: boolean;
   handleClick?: any;
+  handleDrag?: any;
 }
 
 const MyCircle = (props: CircleProps) => {
-  const { x, y } = useSpring({ x: props.x, y: props.y });
+  const { x, y, radius, fill, stroke } = props;
+  const circleSpring = useSpring(props);
 
   return (
     <animated.Circle
-      x={x}
-      y={y}
-      radius={props.radius}
-      fill={props.fill}
-      stroke={props.stroke}
+      {...circleSpring}
       onClick={props.handleClick}
       draggable={props.draggable}
       canvasRef={props.canvasRef}
+      onDragStart={props.handleDrag}
+      onDragEnd={props.handleDrag}
     />
   );
 };

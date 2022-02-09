@@ -1,7 +1,8 @@
 import React from "react";
 import { default as MyRect, RectProps } from "./MyRect";
 import { default as MyCircle, CircleProps } from "./MyCircle";
-
+const SpringKonva = require("@react-spring/konva");
+const { animated, useSpring } = SpringKonva;
 const Konva = require("react-konva");
 const { Group } = Konva;
 
@@ -46,6 +47,7 @@ export interface EyeProps {
   movementFactor: number;
   disableClip?: boolean;
   handleClick?: any;
+  handleDrag?: any;
 }
 
 const Eye = (props: EyeProps) => {
@@ -103,11 +105,8 @@ const Eye = (props: EyeProps) => {
   const innerXY = getInnerPosition();
 
   const groupProps = {
-    scaleX: ratio[0],
-    scaleY: ratio[1],
-    rotation: outerRotation || 0,
-    x: x, //outerShape === "Rect" ? x - outerSize : x, //+ outerSize,
-    y: y, //outerShape === "Rect" ? y - outerSize : y, // + outerSize,
+    // x: x, //outerShape === "Rect" ? x - outerSize : x, //+ outerSize,
+    // y: y, //outerShape === "Rect" ? y - outerSize : y, // + outerSize,
     offsetX: 0, //outerShape === "Rect" ? outerSize : 0,
     offsetY: 0, //outerShape === "Rect" ? outerSize : 0,
     onClick: handleClick,
@@ -120,6 +119,14 @@ const Eye = (props: EyeProps) => {
           ctx.rect(-outerSize, -outerSize, outerSize * 2, outerSize * 2)
       : null, //ToDo Add Clip Function for Rect Shape.
   };
+
+  const animatedGroup = useSpring({
+    scaleX: ratio[0],
+    scaleY: ratio[1],
+    rotation: outerRotation || 0,
+    x,
+    y,
+  });
 
   const BigShape =
     outerShape === "Circle" ? (
@@ -168,10 +175,15 @@ const Eye = (props: EyeProps) => {
     ) : null;
 
   return (
-    <Group {...groupProps}>
+    <animated.Group
+      {...groupProps}
+      {...animatedGroup}
+      onDragStart={props.handleDrag}
+      onDragEnd={props.handleDrag}
+    >
       {BigShape}
       {SmallShape}
-    </Group>
+    </animated.Group>
   );
 };
 

@@ -17,6 +17,8 @@ export interface RectProps {
   rotation?: number;
   draggable?: boolean;
   handleClick?: any;
+  handleDrag?: any;
+
   canvasRef?: object;
 }
 
@@ -40,6 +42,8 @@ const MyRect = (props: RectProps) => {
       {...springProps}
       onClick={handleClick}
       draggable={draggable}
+      onDragStart={props.handleDrag}
+      onDragEnd={props.handleDrag}
     />
   );
 };
